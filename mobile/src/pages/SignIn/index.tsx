@@ -43,7 +43,7 @@ const SignIn: React.FC = () => {
 
   const handleSignIn = useCallback(async (data: SignInFormData) => {
     try {
-      formRef.current?.setErrors({});
+      formRef.current.setErrors({});
 
       const schema = Yup.object().shape({
         email: Yup.string()
@@ -66,7 +66,7 @@ const SignIn: React.FC = () => {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err);
 
-        formRef.current?.setErrors(errors);
+        formRef.current.setErrors(errors);
 
         return;
       }

@@ -19,6 +19,8 @@ import Input from '../../components/Input';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 
+import api from '../../services/api';
+
 import { Container, Title, BackToSignIn, BackToSignInText } from './styles';
 
 import logoImg from '../../assets/logo.png';
@@ -38,7 +40,7 @@ const SignUp: React.FC = () => {
 
   const handleSignUp = useCallback(async (data: SignUpFormData) => {
     try {
-      formRef.current?.setErrors({});
+      formRef.current.setErrors({});
 
       const schema = Yup.object().shape({
         name: Yup.string().required('Nome obrigatório'),
@@ -54,14 +56,19 @@ const SignUp: React.FC = () => {
         abortEarly: false,
       });
 
-      // await api.post('/users', data);
+      await api.post('/users', data);
 
-      // history.push('/');
+      navigation.goBack();
+
+      Alert.alert(
+        'Cadastro realizado com sucesso!',
+        'Você já pode fazer logon na aplicação.',
+      );
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err);
 
-        formRef.current?.setErrors(errors);
+        formRef.current.setErrors(errors);
 
         return;
       }
